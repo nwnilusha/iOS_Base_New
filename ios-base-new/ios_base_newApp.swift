@@ -6,12 +6,26 @@
 //
 
 import SwiftUI
+import SwiftData
 
 @main
 struct ios_base_newApp: App {
+    
+    @StateObject private var appCoordinator = AppCoordinator()
+    
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            NavigationStack(path: $appCoordinator.path) {
+                HomeView()
+                    .navigationDestination(for: Routes.self) { route in
+                        appCoordinator.buildDestination(for: route)
+                    }
+            }
+            .environmentObject(appCoordinator)
+            .modelContainer(for: [ReportModel.self])
+            
         }
+        
+        
     }
 }

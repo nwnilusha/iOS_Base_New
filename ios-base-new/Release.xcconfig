@@ -1,0 +1,9 @@
+//
+//  Release.xcconfig
+//  ios-base-new
+//
+//  Created by Nilusha Niwanthaka Wimalasena on 14/7/25.
+//
+
+POPULER_MOVIES_BEARER_TOKEN = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI3OWJkYjdiMGMwYmU4NTRmYmUxMTgxMjM2NjA0YTI5OSIsIm5iZiI6MTc1MDg0MzU0Mi45MzUwMDAyLCJzdWIiOiI2ODViYzA5Njk0YzRlNTc5MGVlNDJlZWEiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.07zropRonVCdb_rXjQ61Z0mcFEa-R_w_16lCtZQhYHk"
+
