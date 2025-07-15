@@ -42,9 +42,9 @@ class UsersViewModel: ObservableObject {
             DebugLogger.shared.log("Fetched users: \(fetchedUsers.count) items")
             Self.usersCache.setObject(fetchedUsers as NSArray, forKey: cacheKey as NSString)
         } catch {
-            if let error = error as? RequestError {
-                errorMessage = error.errorDiscription
-                DebugLogger.shared.log("User fetch failed with RequestError: \(error.errorDiscription)")
+            if let apiError = error as? RequestError {
+                errorMessage = apiError.errorDiscription
+                DebugLogger.shared.log("User fetch failed with RequestError: \(apiError.errorDiscription)")
             } else {
                 errorMessage = "Unknown error occurred"
                 DebugLogger.shared.log("User fetch failed with unknown error: \(error.localizedDescription)")

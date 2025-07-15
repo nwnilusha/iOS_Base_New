@@ -3,6 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>PopulerMoviesBearerToken</key>
-	<string>POPULER_MOVIES_BEARER_TOKEN</string>
+	<string>$(POPULER_MOVIES_BEARER_TOKEN)</string>
+
 </dict>
 </plist>

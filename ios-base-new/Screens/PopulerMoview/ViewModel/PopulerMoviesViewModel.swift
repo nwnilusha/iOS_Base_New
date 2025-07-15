@@ -90,9 +90,9 @@ class PopulerMoviesViewModel: ObservableObject {
             }
             
         } catch {
-            if let error = error as? RequestError {
-                self.requestError = error.errorDiscription
-                DebugLogger.shared.log("RequestError: \(error.errorDiscription)")
+            if let apiError = error as? RequestError {
+                self.requestError = apiError.errorDiscription
+                DebugLogger.shared.log("RequestError: \(String(describing: requestError))")
             } else {
                 self.requestError = "Unknown error occurred"
                 DebugLogger.shared.log("Unknown error occurred while fetching movies")
