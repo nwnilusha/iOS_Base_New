@@ -13,18 +13,11 @@ enum HTTPHeader {
     var headers: [String: String] {
         switch self {
         case .popuperMovies:
-            let builder = HTTPHeaderBuilder(accessToken: Self.populerMoviesAccessToken)
+            let populerMoviesAccessToken: String = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI3OWJkYjdiMGMwYmU4NTRmYmUxMTgxMjM2NjA0YTI5OSIsIm5iZiI6MTc1MDg0MzU0Mi45MzUwMDAyLCJzdWIiOiI2ODViYzA5Njk0YzRlNTc5MGVlNDJlZWEiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.07zropRonVCdb_rXjQ61Z0mcFEa-R_w_16lCtZQhYHk"
+            let builder = HTTPHeaderBuilder(accessToken: populerMoviesAccessToken)
             return builder.headers
         }
     }
-    
-    static let populerMoviesAccessToken: String = {
-        guard let apiKey = Bundle.main.infoDictionary?["PopulerMoviesBearerToken"] as? String else {
-            fatalError("POPULER_MOVIES_BEARER_TOKEN not found in Info.plist. Ensure it's set in build settings.")
-        }
-        return apiKey
-    }()
-    
 }
 
 struct HTTPHeaderBuilder {
