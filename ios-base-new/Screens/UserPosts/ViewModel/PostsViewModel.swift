@@ -44,8 +44,13 @@ class PostsViewModel: ObservableObject {
             DebugLogger.shared.log("Fetched posts: \(fetchedPosts.count) items for userId: \(userId)")
             Self.postCache.setObject(fetchedPosts as NSArray, forKey: cacheKey)
         } catch {
-            errorDetails = error.localizedDescription
-            DebugLogger.shared.log("Failed to fetch posts for userId: \(userId) - Error: \(error.localizedDescription)")
+            if let apiError = error as? RequestError {
+                errorDetails = apiError.errorDiscription
+                DebugLogger.shared.log("User fetch failed with RequestError: \(apiError.errorDiscription)")
+            } else {
+                errorDetails = "Unknown error occurred"
+                DebugLogger.shared.log("User fetch failed with unknown error: \(error.localizedDescription)")
+            }
         }
     }
     
