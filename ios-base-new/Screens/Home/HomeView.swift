@@ -14,7 +14,7 @@ struct HomeView: View {
     
     var body: some View {
         VStack {
-            Text("Home View")
+            Text("Dashboard")
                 .font(.largeTitle)
                 .fontWeight(.bold)
                 .padding(.top, 20)
