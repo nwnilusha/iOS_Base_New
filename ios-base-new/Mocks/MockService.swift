@@ -24,13 +24,13 @@ struct MockService: Servicing {
         return Post.mockPosts
     }
     
-    func fetchPopularMovies(page: Int) async throws -> PopulerMovieResponse {
-        return PopulerMovieResponse.mockPopulerMovieData
+    func fetchPopularMovies(page: Int) async throws -> PopularMovieResponse {
+        return PopularMovieResponse.mockPopulerMovieData
     }
 }
 
 class MockServiceError: Servicing {
-    func fetchPopularMovies(page: Int) async throws -> PopulerMovieResponse {
+    func fetchPopularMovies(page: Int) async throws -> PopularMovieResponse {
         throw RequestError.invalidURL
     }
     
@@ -53,7 +53,7 @@ class MockServiceError: Servicing {
 }
 
 class MockEmptyData: Servicing {
-    func fetchPopularMovies(page: Int) async throws -> PopulerMovieResponse {
+    func fetchPopularMovies(page: Int) async throws -> PopularMovieResponse {
         throw RequestError.emptyResponse
     }
     

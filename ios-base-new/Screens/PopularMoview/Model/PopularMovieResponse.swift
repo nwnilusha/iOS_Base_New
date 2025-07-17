@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct PopulerMovieResponse: Codable {
+struct PopularMovieResponse: Codable {
     let page: Int
     let movies: [Movie]
     let totalPages: Int
@@ -52,5 +52,26 @@ struct Movie: Codable, Hashable {
         case video
         case voteAverage = "vote_average"
         case voteCount = "vote_count"
+    }
+}
+
+extension Movie {
+    static func mockMovie(title: String) -> Movie {
+        Movie(
+            adult: false,
+            backdropPath: nil,
+            genreIds: [],
+            id: 0,
+            originalLanguage: "",
+            originalTitle: title,
+            overview: "",
+            popularity: 0.00,
+            posterPath: nil,
+            releaseDate: "",
+            title: "",
+            video: false,
+            voteAverage: 0.00,
+            voteCount: 0,
+        )
     }
 }

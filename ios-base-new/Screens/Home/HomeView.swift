@@ -14,7 +14,7 @@ struct HomeView: View {
     
     var body: some View {
         VStack {
-            Text("Home View")
+            Text("Dashboard")
                 .font(.largeTitle)
                 .fontWeight(.bold)
                 .padding(.top, 20)
@@ -30,7 +30,7 @@ struct HomeView: View {
                     DebugLogger.shared.log("Navigating to Popular Movies View")
                     coordinator.push(.populerMoviesView)
                 } label: {
-                    ItemView(informationText: "Populer Movies", imageName: "film")
+                    ItemView(informationText: "Popular Movies", imageName: "film")
                 }
                 
                 Button {

@@ -7,8 +7,8 @@
 
 import Foundation
 
-extension PopulerMovieResponse {
-    static var mockPopulerMovieData: PopulerMovieResponse {
-        Bundle.main.decode(PopulerMovieResponse.self, from: "mock_populer_movie_response.json")
+extension PopularMovieResponse {
+    static var mockPopulerMovieData: PopularMovieResponse {
+        Bundle.main.decode(PopularMovieResponse.self, from: "mock_populer_movie_response.json")
     }
 }

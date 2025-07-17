@@ -7,8 +7,6 @@
 
 import SwiftUI
 
-import SwiftUI
-
 struct UsersView: View {
     @StateObject var viewModel: UsersViewModel
     @EnvironmentObject var coodinator: AppCoordinator

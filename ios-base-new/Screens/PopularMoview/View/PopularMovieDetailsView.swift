@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct PopulerMovieDetailsView: View {
+struct PopularMovieDetailsView: View {
     
     let movieDetails: Movie
     

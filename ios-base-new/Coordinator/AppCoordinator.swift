@@ -18,10 +18,10 @@ class AppCoordinator: ObservableObject {
         switch route {
         case .populerMoviesView:
             let service = Service(service: httpService)
-            let vm = PopulerMoviesViewModel(service: service)
-            return AnyView(PopulerMoviesView(viewModel: vm))
+            let vm = PopularMoviesViewModel(service: service)
+            return AnyView(PopularMoviesView(viewModel: vm))
         case .populerMovieDetails(let movieDetails):
-            return AnyView(PopulerMovieDetailsView(movieDetails: movieDetails))
+            return AnyView(PopularMovieDetailsView(movieDetails: movieDetails))
         case .users:
             let service = Service(service: httpService)
             let vm = UsersViewModel(service: service)
