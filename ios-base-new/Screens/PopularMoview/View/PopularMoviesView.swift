@@ -32,10 +32,10 @@ struct PopularMoviesView: View {
             
             ScrollView(.vertical, showsIndicators: false) {
                 LazyVGrid(columns: columns, spacing: 20) {
-                    ForEach(Array(viewModel.populerMovies?.enumerated() ?? [].enumerated()), id: \.1.id) { index, movie in
+                    ForEach(Array(viewModel.filteredMovies?.enumerated() ?? [].enumerated()), id: \.1.id) { index, movie in
                         movieCell(for: movie)
                             .onAppear {
-                                if index == (viewModel.populerMovies?.count ?? 0) - 1 && !viewModel.isSearching {
+                                if index == (viewModel.filteredMovies?.count ?? 0) - 1 && !viewModel.isSearching {
                                     Task {
                                         await viewModel.fetchPopularMovies()
                                     }

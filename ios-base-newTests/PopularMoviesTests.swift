@@ -15,8 +15,8 @@ final class PopularMoviesTests: XCTestCase {
         let viewModel = PopularMoviesViewModel(service: service)
 
         let movie = Movie.mockMovie(title: "Cached Movie")
-        PopularMoviesViewModel.populerMovieCache.setObject([movie] as NSArray, forKey: viewModel.allMoviesCacheKey)
-        PopularMoviesViewModel.populerMociePageCache.setObject(2, forKey: viewModel.allMoviesPageCacheKey)
+        PopularMoviesViewModel.populerMovieCache.setObject([movie] as NSArray, forKey: CacheKey.allMoviesCacheKey)
+        PopularMoviesViewModel.populerMociePageCache.setObject(2, forKey: CacheKey.allMoviesPageCacheKey)
         
         await viewModel.loadInitialData()
 
@@ -44,7 +44,7 @@ final class PopularMoviesTests: XCTestCase {
 
         do {
             try await Task.sleep(for: .seconds(0.6))
-            XCTAssertEqual(viewModel.populerMovies?.first?.title, "Oppenheimer")
+            XCTAssertEqual(viewModel.filteredMovies?.first?.title, "Oppenheimer")
             XCTAssertTrue(viewModel.isSearching)
         } catch {
             XCTFail("Error: \(error)")
@@ -60,7 +60,7 @@ final class PopularMoviesTests: XCTestCase {
         
         do {
             try await Task.sleep(for: .seconds(0.6))
-            XCTAssertEqual(viewModel.populerMovies?.count, viewModel.movies?.count)
+            XCTAssertEqual(viewModel.filteredMovies?.count, viewModel.movies?.count)
             XCTAssertFalse(viewModel.isSearching)
         } catch {
             XCTFail("Error: \(error)")

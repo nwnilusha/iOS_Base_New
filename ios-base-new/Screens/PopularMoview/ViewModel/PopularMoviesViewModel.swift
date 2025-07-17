@@ -11,7 +11,7 @@ import Combine
 class PopularMoviesViewModel: ObservableObject {
     
     @Published var movies: [Movie]?
-    @Published var populerMovies: [Movie]?
+    @Published var filteredMovies: [Movie]?
     @Published var requestError: String?
     @Published var searchedText: String = ""
     @Published var pageNumber: Int = 1
@@ -20,9 +20,6 @@ class PopularMoviesViewModel: ObservableObject {
     
     static let populerMovieCache = NSCache<NSString, NSArray>()
     static let populerMociePageCache = NSCache<NSString, NSNumber>()
-    
-    let allMoviesCacheKey = "AllPopulerMoviesKey" as NSString
-    let allMoviesPageCacheKey = "AllPopulerMoviesPageKey" as NSString
     
     private var cancelable = Set<AnyCancellable>()
     
@@ -41,11 +38,11 @@ class PopularMoviesViewModel: ObservableObject {
         if let _ = self.movies {
             DebugLogger.shared.log("Movies already loaded in memory, skipping fetch")
             return
-        } else if let cacheMovies = Self.populerMovieCache.object(forKey: allMoviesCacheKey) as? [Movie],
-                  let cachePageNumber = Self.populerMociePageCache.object(forKey: allMoviesPageCacheKey) as? Int {
+        } else if let cacheMovies = Self.populerMovieCache.object(forKey: CacheKey.allMoviesCacheKey) as? [Movie],
+                  let cachePageNumber = Self.populerMociePageCache.object(forKey: CacheKey.allMoviesPageCacheKey) as? Int {
             self.movies = cacheMovies
             self.pageNumber = cachePageNumber
-            self.populerMovies = cacheMovies
+            self.filteredMovies = cacheMovies
             DebugLogger.shared.log("Loaded movies from cache (Page \(cachePageNumber))")
         } else {
             await fetchPopularMovies()
@@ -80,12 +77,12 @@ class PopularMoviesViewModel: ObservableObject {
             }
             
             if let allMovies = self.movies {
-                self.populerMovies = allMovies
+                self.filteredMovies = allMovies
                 self.pageNumber += 1
                 DebugLogger.shared.log("Updated movie list (Page now: \(pageNumber))")
 
-                Self.populerMovieCache.setObject(Array(allMovies) as NSArray, forKey: allMoviesCacheKey)
-                Self.populerMociePageCache.setObject(pageNumber as NSNumber, forKey: allMoviesPageCacheKey)
+                Self.populerMovieCache.setObject(Array(allMovies) as NSArray, forKey: CacheKey.allMoviesCacheKey)
+                Self.populerMociePageCache.setObject(pageNumber as NSNumber, forKey: CacheKey.allMoviesPageCacheKey)
                 DebugLogger.shared.log("Cached \(allMovies.count) movies")
             }
             
@@ -110,12 +107,12 @@ class PopularMoviesViewModel: ObservableObject {
                 
                 if value.isEmpty {
                     self.isSearching = false
-                    self.populerMovies = self.movies
+                    self.filteredMovies = self.movies
                     DebugLogger.shared.log("Search cleared — showing all movies")
                 } else {
                     self.isSearching = true
                     let filtered = self.movies?.filter { $0.title.lowercased().hasPrefix(value.lowercased()) }
-                    self.populerMovies = filtered
+                    self.filteredMovies = filtered
                     DebugLogger.shared.log("Search: '\(value)' — matched \(filtered?.count ?? 0) movies")
                 }
             }
