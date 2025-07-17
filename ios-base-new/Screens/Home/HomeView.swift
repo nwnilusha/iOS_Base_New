@@ -30,7 +30,7 @@ struct HomeView: View {
                     DebugLogger.shared.log("Navigating to Popular Movies View")
                     coordinator.push(.populerMoviesView)
                 } label: {
-                    ItemView(informationText: "Populer Movies", imageName: "film")
+                    ItemView(informationText: "Popular Movies", imageName: "film")
                 }
                 
                 Button {

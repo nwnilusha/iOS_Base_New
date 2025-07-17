@@ -1,5 +1,5 @@
 //
-//  PopulerMoviesTests.swift
+//  PopularMoviesTests.swift
 //  PopulerMoviesTests
 //
 //  Created by Nilusha Niwanthaka Wimalasena on 27/6/25.
@@ -8,27 +8,26 @@
 import XCTest
 @testable import ios_base_new
 
-final class PopulerMoviesTests: XCTestCase {
+final class PopularMoviesTests: XCTestCase {
     
     func test_loadInitialData_withCachedData_shouldUseCache() async {
         let service = MockService()
-        let viewModel = PopulerMoviesViewModel(service: service)
+        let viewModel = PopularMoviesViewModel(service: service)
 
+        let movie = Movie.mockMovie(title: "Cached Movie")
+        PopularMoviesViewModel.populerMovieCache.setObject([movie] as NSArray, forKey: viewModel.allMoviesCacheKey)
+        PopularMoviesViewModel.populerMociePageCache.setObject(2, forKey: viewModel.allMoviesPageCacheKey)
+        
         await viewModel.loadInitialData()
 
+        XCTAssertEqual(viewModel.movies?.first?.originalTitle, "Cached Movie")
         XCTAssertEqual(viewModel.pageNumber, 2)
-
-        let viewModel2 = PopulerMoviesViewModel(service: service)
-        await viewModel2.loadInitialData()
-
-        XCTAssertEqual(viewModel2.movies?.first?.title, "The Wild Robot")
-        XCTAssertEqual(viewModel2.pageNumber, 2)
     }
 
 
     func test_loadInitialData_withoutCache_shouldFetchFromService() async {
         let service = MockService()
-        let viewModel = PopulerMoviesViewModel(service: service)
+        let viewModel = PopularMoviesViewModel(service: service)
 
         await viewModel.loadInitialData()
 
@@ -38,7 +37,7 @@ final class PopulerMoviesTests: XCTestCase {
     
     func test_searchText_shouldFilterMovies() async {
         let service = MockService()
-        let viewModel = PopulerMoviesViewModel(service: service)
+        let viewModel = PopularMoviesViewModel(service: service)
         await viewModel.fetchPopularMovies()
 
         viewModel.searchedText = "Oppenheimer"
@@ -54,7 +53,7 @@ final class PopulerMoviesTests: XCTestCase {
     
     func test_searchText_empty_shouldResetToAllMovies() async {
         let service = MockService()
-        let viewModel = PopulerMoviesViewModel(service: service)
+        let viewModel = PopularMoviesViewModel(service: service)
         await viewModel.fetchPopularMovies()
 
         viewModel.searchedText = ""
@@ -69,7 +68,7 @@ final class PopulerMoviesTests: XCTestCase {
     }
     
     func test_fetchPopularMovies_withError_shouldSetErrorMessage() async {
-        let viewModel = PopulerMoviesViewModel(service: MockServiceError())
+        let viewModel = PopularMoviesViewModel(service: MockServiceError())
         
         await viewModel.fetchPopularMovies()
 
@@ -78,7 +77,7 @@ final class PopulerMoviesTests: XCTestCase {
     
     func test_fetchPopularMovies_shouldAvoidDuplicateTitles() async {
         let service = MockService()
-        let viewModel = PopulerMoviesViewModel(service: service)
+        let viewModel = PopularMoviesViewModel(service: service)
 
         await viewModel.fetchPopularMovies()
         let countAfterFirstFetch = viewModel.movies?.count ?? 0
@@ -92,7 +91,7 @@ final class PopulerMoviesTests: XCTestCase {
     
     func test_fetchPopularMovies_shouldSetIsLoadingCorrectly() async {
         let service = MockService()
-        let viewModel = PopulerMoviesViewModel(service: service)
+        let viewModel = PopularMoviesViewModel(service: service)
 
         let expect = expectation(description: "Loading flag set properly")
         Task {
@@ -106,7 +105,7 @@ final class PopulerMoviesTests: XCTestCase {
 
     func test_fetchPopularMovies_withEmptyData_shouldNotCrash() async {
         let service = MockEmptyData()
-        let viewModel = PopulerMoviesViewModel(service: service)
+        let viewModel = PopularMoviesViewModel(service: service)
 
         await viewModel.fetchPopularMovies()
 

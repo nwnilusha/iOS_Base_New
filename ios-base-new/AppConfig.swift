@@ -11,9 +11,8 @@ struct AppConfig {
     static var isDebugModeEnabled: Bool {
         get {
             #if DEBUG
-            return UserDefaults.standard.bool(forKey: "debug_mode") || true
-            #else
-            return UserDefaults.standard.bool(forKey: "debug_mode")
+            let userDefaultsValue = UserDefaults.standard.bool(forKey: "debug_mode")
+            return userDefaultsValue
             #endif
         }
         set {

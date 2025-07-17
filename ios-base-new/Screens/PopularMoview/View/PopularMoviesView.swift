@@ -8,16 +8,16 @@
 import SwiftUI
 import Foundation
 
-struct PopulerMoviesView: View {
+struct PopularMoviesView: View {
     
-    @StateObject var viewModel: PopulerMoviesViewModel
+    @StateObject var viewModel: PopularMoviesViewModel
     @EnvironmentObject var coordinator: AppCoordinator
     
     @Environment(\.dismiss) private var dismiss
     
     let columns = [GridItem(.flexible(), spacing: 16), GridItem(.flexible(), spacing: 16)]
     
-    init(viewModel: PopulerMoviesViewModel) {
+    init(viewModel: PopularMoviesViewModel) {
         _viewModel = StateObject(wrappedValue: viewModel)
     }
     

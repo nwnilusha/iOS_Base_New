@@ -1,5 +1,5 @@
 //
-//  PopulerMoviesViewModel.swift
+//  PopularMoviesViewModel.swift
 //  ios-base-new
 //
 //  Created by Nilusha Niwanthaka Wimalasena on 27/6/25.
@@ -8,7 +8,7 @@
 import Foundation
 import Combine
 
-class PopulerMoviesViewModel: ObservableObject {
+class PopularMoviesViewModel: ObservableObject {
     
     @Published var movies: [Movie]?
     @Published var populerMovies: [Movie]?
@@ -18,8 +18,8 @@ class PopulerMoviesViewModel: ObservableObject {
     @Published var isLoading: Bool = false
     @Published var isSearching: Bool = false
     
-    private static let populerMovieCache = NSCache<NSString, NSArray>()
-    private static let populerMociePageCache = NSCache<NSString, NSNumber>()
+    static let populerMovieCache = NSCache<NSString, NSArray>()
+    static let populerMociePageCache = NSCache<NSString, NSNumber>()
     
     let allMoviesCacheKey = "AllPopulerMoviesKey" as NSString
     let allMoviesPageCacheKey = "AllPopulerMoviesPageKey" as NSString

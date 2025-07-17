@@ -15,13 +15,13 @@ struct Service: Servicing {
         self.httpService = service
     }
     
-    func fetchPopularMovies(page: Int) async throws -> PopulerMovieResponse {
+    func fetchPopularMovies(page: Int) async throws -> PopularMovieResponse {
         DebugLogger.shared.log("Fetching popular movies. Page: \(page)")
         do {
             let response = try await httpService.sendRequest(
                 session: URLSession.shared,
                 endpoint: MovieEndpoint.popularMovies(page),
-                responseModel: PopulerMovieResponse.self
+                responseModel: PopularMovieResponse.self
             )
             DebugLogger.shared.log("Successfully fetched popular movies: \(response.movies.count) movies.")
             return response

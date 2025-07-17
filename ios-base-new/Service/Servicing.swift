@@ -8,7 +8,7 @@
 import Foundation
 
 protocol Servicing {
-    func fetchPopularMovies(page: Int) async throws -> PopulerMovieResponse
+    func fetchPopularMovies(page: Int) async throws -> PopularMovieResponse
     func getUsers() async throws -> [User]
     func getPosts(for userID: Int) async throws -> [Post]
     func getProjects() async throws -> [Project]
