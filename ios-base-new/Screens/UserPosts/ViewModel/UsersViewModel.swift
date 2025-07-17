@@ -22,10 +22,10 @@ class UsersViewModel: ObservableObject {
 
     @MainActor
     func loadData() async {
-        let cacheKey = "user_list_cache"
+        
         DebugLogger.shared.log("UsersViewModel - loadData started")
         
-        if let cachedUsers = Self.usersCache.object(forKey: cacheKey as NSString) as? [User] {
+        if let cachedUsers = Self.usersCache.object(forKey: CacheKey.userCacheKey as NSString) as? [User] {
             DebugLogger.shared.log("Loaded users from cache: \(cachedUsers.count) items")
             self.users = cachedUsers
             return
@@ -40,7 +40,7 @@ class UsersViewModel: ObservableObject {
             let fetchedUsers = try await dataService.getUsers()
             users = fetchedUsers
             DebugLogger.shared.log("Fetched users: \(fetchedUsers.count) items")
-            Self.usersCache.setObject(fetchedUsers as NSArray, forKey: cacheKey as NSString)
+            Self.usersCache.setObject(fetchedUsers as NSArray, forKey: CacheKey.userCacheKey as NSString)
         } catch {
             if let apiError = error as? RequestError {
                 errorMessage = apiError.errorDiscription
