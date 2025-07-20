@@ -10,8 +10,8 @@ import Combine
 
 class PopularMoviesViewModel: ObservableObject {
     
-    @Published var movies: [Movie]?
-    @Published var filteredMovies: [Movie]?
+    @Published var movies: Set<Movie>?
+    @Published var filteredMovies: Set<Movie>?
     @Published var requestError: String?
     @Published var searchedText: String = ""
     @Published var pageNumber: Int = 1
@@ -40,9 +40,9 @@ class PopularMoviesViewModel: ObservableObject {
             return
         } else if let cacheMovies = Self.populerMovieCache.object(forKey: CacheKey.allMoviesCacheKey) as? [Movie],
                   let cachePageNumber = Self.populerMociePageCache.object(forKey: CacheKey.allMoviesPageCacheKey) as? Int {
-            self.movies = cacheMovies
+            self.movies = Set(cacheMovies)
             self.pageNumber = cachePageNumber
-            self.filteredMovies = cacheMovies
+            self.filteredMovies = self.movies
             DebugLogger.shared.log("Loaded movies from cache (Page \(cachePageNumber))")
         } else {
             await fetchPopularMovies()
@@ -67,13 +67,9 @@ class PopularMoviesViewModel: ObservableObject {
             DebugLogger.shared.log("Fetched \(movieData.movies.count) movies from service")
             
             if self.movies == nil {
-                self.movies = movieData.movies
+                self.movies = Set(movieData.movies)
             } else {
-                movieData.movies.forEach { movie in
-                    if !(self.movies?.contains(where: { $0.title == movie.title }) ?? false) {
-                        self.movies?.append(movie)
-                    }
-                }
+                self.movies?.formUnion(movieData.movies)
             }
             
             if let allMovies = self.movies {
