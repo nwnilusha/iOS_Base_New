@@ -12,8 +12,9 @@ struct PopularMoviesView: View {
     
     @StateObject var viewModel: PopularMoviesViewModel
     @EnvironmentObject var coordinator: AppCoordinator
-    
     @Environment(\.dismiss) private var dismiss
+
+    @State private var isSwapped = false
     
     let columns = [GridItem(.flexible(), spacing: 16), GridItem(.flexible(), spacing: 16)]
     
@@ -32,10 +33,10 @@ struct PopularMoviesView: View {
             
             ScrollView(.vertical, showsIndicators: false) {
                 LazyVGrid(columns: columns, spacing: 20) {
-                    ForEach(Array(viewModel.filteredMovies?.enumerated() ?? [].enumerated()), id: \.1.id) { index, movie in
+                    ForEach(sortedMovies(), id: \.id) { movie in
                         movieCell(for: movie)
                             .onAppear {
-                                if index == (viewModel.filteredMovies?.count ?? 0) - 1 && !viewModel.isSearching {
+                                if movie == sortedMovies().last {
                                     Task {
                                         await viewModel.fetchPopularMovies()
                                     }
@@ -44,14 +45,12 @@ struct PopularMoviesView: View {
                             .onTapGesture {
                                 coordinator.push(.populerMovieDetails(movie))
                             }
-                        
                     }
                 }
                 .padding(.horizontal)
-            }
-            if viewModel.isLoading {
-                ProgressView()
-                    .padding(.vertical)
+                
+                loadingCircles
+                    .padding(.top, 20)
             }
         }
         .task {
@@ -66,7 +65,32 @@ struct PopularMoviesView: View {
         }
         .networkAlert()
     }
+    
+    private func sortedMovies() -> [Movie] {
+        (viewModel.filteredMovies ?? []).sorted { $0.id < $1.id }
+    }
+    
+    private var loadingCircles: some View {
+        HStack(spacing: 10) {
+            Circle()
+                .fill(Color.blue)
+                .frame(width: 8, height: 8)
+                .offset(x: isSwapped ? 10 : -10)
+
+            Circle()
+                .fill(Color.red)
+                .frame(width: 8, height: 8)
+                .offset(x: isSwapped ? -10 : 10)
+        }
+        .frame(width: 60, height: 20)
+        .onAppear {
+            withAnimation(Animation.linear(duration: 0.5).repeatForever(autoreverses: true)) {
+                isSwapped.toggle()
+            }
+        }
+    }
 }
+
 
 private func movieCell(for movie: Movie) -> some View {
     VStack(spacing: 8) {

@@ -12,30 +12,31 @@ class AppCoordinator: ObservableObject {
     
     @Published var path = NavigationPath()
     
-    let httpService = HTTPService()
+    let httpService: HTTPService
+    let service: Service
+    
+    init() {
+        self.httpService = HTTPService()
+        self.service = Service(service: httpService)
+    }
     
     func buildDestination(for route: Routes) -> some View {
         switch route {
         case .populerMoviesView:
-            let service = Service(service: httpService)
             let vm = PopularMoviesViewModel(service: service)
             return AnyView(PopularMoviesView(viewModel: vm))
         case .populerMovieDetails(let movieDetails):
             return AnyView(PopularMovieDetailsView(movieDetails: movieDetails))
         case .users:
-            let service = Service(service: httpService)
             let vm = UsersViewModel(service: service)
             return AnyView(UsersView(viewModel: vm))
         case .posts(let userId):
-            let service = Service(service: httpService)
             let vm = PostsViewModel(service: service, userId: userId)
             return AnyView(PostsView(viewModel: vm))
         case .projects:
-            let service = Service(service: httpService)
             let vm = ProjectsViewModel(service: service)
             return AnyView(ProjectsView(viewModel: vm))
         case .projectReports(let projectId):
-            let service = Service(service: httpService)
             let vm = ProjectReportsViewModel(service: service, projectId: projectId)
             let swiftDataVM = ReportSwiftDataViewModel()
             return AnyView(ProjectReportsView(viewModel: vm, reportViewModel: swiftDataVM))
